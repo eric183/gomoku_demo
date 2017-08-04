@@ -5,10 +5,95 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        div#root {
+            margin: auto;
+            width: 60%;
+            max-width: 800px;
+            position: relative;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul.heng {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .heng li {
+            width: 100%;
+            height: 2px;
+            background: red;
+        }
+        
+        ul.zhong {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-between;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .zhong li {
+            width: 2px;
+            height: 100%;
+            background: red;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <ul class="heng">
+            <!-- <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li> -->
+        </ul>
+        <ul class="zhong">
+            <!-- <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li> -->
+        </ul>
+    </div>
     <script src="./src/gomoku.js"></script>
 </body>
 
