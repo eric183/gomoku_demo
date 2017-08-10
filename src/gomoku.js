@@ -69,7 +69,7 @@ Gomoku.prototype.initStage = function(reset) {
         var p1 = 1;
         var p2 = 2;
 
-        var _array = [];
+        var _array = new Array();
 
 
         var child = document.createElement('div');
@@ -79,7 +79,7 @@ Gomoku.prototype.initStage = function(reset) {
 
         var _div = query('.floatDiv');
         var box_height = query('ul li')[1].offsetTop;
-        var circleHeight = box_height - 2;
+        var circleHeight = box_height - 1;
         console.log('格子高宽' + box_height);
 
         //异步样式表
@@ -90,9 +90,22 @@ Gomoku.prototype.initStage = function(reset) {
             ));
         document.head.appendChild(stylesheet);
 
-        for (let q = 0; q < 225; q++) {
-            _array.push({ x: q * box_height, y: q * box_height });
+        for (let y = 0; y < 15; y++) {
+            // _array.push({ x: x * box_height });
+            for (let x = 0; x < 15; x++) {
+                _array.push({ x: x * box_height, y: y * box_height })
+            }
+            // for (let x = 0; x < 15; x++) { 
+
+            // }
+
+            // _array[x].x = x * box_height;
+            // _array[x].y = x
+
+
         }
+
+
         console.log(_array);
         //Y轴修正值
         var fiY = function(_y) {
@@ -125,14 +138,15 @@ Gomoku.prototype.initStage = function(reset) {
 
 
 
-        var chazhiX = config.el.offsetLeft + _div.clientWidth / 2;
-        var chazhiY = config.el.offsetTop + _div.clientWidth / 2;
+        // var chazhiX = config.el.offsetLeft + _div.clientWidth / 2;
+        // var chazhiY = config.el.offsetTop + _div.clientWidth / 2;
+        var chazhi = _div.clientWidth / 2;
         root.addEventListener('click', function(e) {
             // if (fiY(e.clientY) == _array[])
             var confirmPoint = checkPoint(fiX(e.clientX), fiY(e.clientY), _array, null);
             // if (confirmPoint.boolean) {
-            _div.style.left = confirmPoint.x - chazhiX + 'px';
-            _div.style.top = confirmPoint.y - chazhiY + 'px';
+            _div.style.left = confirmPoint.x - chazhi + 'px';
+            _div.style.top = confirmPoint.y - chazhi + 'px';
             // }
 
             // console.log(z);
