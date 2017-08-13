@@ -27,7 +27,7 @@ function _extends(_from, _target) {
 }
 
 function Gomoku(object) {
-    // Gomoku.fn = 2323;
+    // Gomoku.fn = 2121;
     object.el = query(object.el);
     // object.el = query("root");
     fakeConstructor(object);
@@ -71,7 +71,7 @@ Gomoku.prototype.initStage = function(reset) {
 
         var _array = new Array();
 
-
+        window.array = _array;
         var child = document.createElement('div');
         child.className = 'floatDiv';
         root.appendChild(child);
@@ -80,6 +80,7 @@ Gomoku.prototype.initStage = function(reset) {
         var _div = query('.floatDiv');
         var box_height = query('ul li')[1].offsetTop;
         var circleHeight = box_height - 1;
+        var fix_box_height = box_height;
         console.log('格子高宽' + box_height);
 
         //异步样式表
@@ -89,11 +90,22 @@ Gomoku.prototype.initStage = function(reset) {
                 `.floatDiv{width: ${circleHeight}px;height: ${circleHeight}px}`
             ));
         document.head.appendChild(stylesheet);
-
+        var flag = 1;
+        var flagY = 1;
         for (let y = 0; y < 15; y++) {
+
             // _array.push({ x: x * box_height });
             for (let x = 0; x < 15; x++) {
-                _array.push({ x: x * box_height, y: y * box_height })
+                _array.push({ x: x * circleHeight + flag, y: y * circleHeight + flagY })
+                flag = flag + 1;
+                if (x >= 14) {
+                    flag = 1;
+                }
+
+            }
+            flagY = flagY + 1;
+            if (y >= 14) {
+                flagY = 1;
             }
             // for (let x = 0; x < 15; x++) { 
 
@@ -105,8 +117,6 @@ Gomoku.prototype.initStage = function(reset) {
 
         }
 
-
-        console.log(_array);
         //Y轴修正值
         var fiY = function(_y) {
             return _y - 40;
@@ -154,8 +164,9 @@ Gomoku.prototype.initStage = function(reset) {
             // console.log(e.clientY);
 
             // console.log(this.offsetLeft);
-            console.log(`x轴坐标： ${fiX(e.clientX)}`);
-            console.log(`y轴坐标： ${fiY(e.clientY)}`);
+            console.log(`x轴实际坐标: ${confirmPoint.x}`)
+            console.log(`x轴点击坐标： ${fiX(e.clientX)}`);
+            console.log(`y轴点击坐标： ${fiY(e.clientY)}`);
         }, false);
     }
 
