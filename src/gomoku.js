@@ -70,7 +70,8 @@ Gomoku.prototype.initStage = function(reset) {
         var p2 = 2;
 
         var _array = new Array();
-
+        var coordinates = {};
+        window.coordinates = coordinates;
         window.array = _array;
         var child = document.createElement('div');
         child.className = 'floatDiv';
@@ -78,9 +79,15 @@ Gomoku.prototype.initStage = function(reset) {
 
 
         var _div = query('.floatDiv');
-        var box_height = query('ul li')[1].offsetTop;
-        var circleHeight = box_height - 1;
-        var fix_box_height = box_height;
+        var _box = query('ul li')[0];
+
+        toArray(query('.heng li')).forEach((data, index, _array) => {
+
+            coordinates[index] = data.offsetTop;
+
+        });
+        var box_height = _box.offsetTop;
+        var circleHeight = box_height;
         console.log('格子高宽' + box_height);
 
         //异步样式表
@@ -90,32 +97,6 @@ Gomoku.prototype.initStage = function(reset) {
                 `.floatDiv{width: ${circleHeight}px;height: ${circleHeight}px}`
             ));
         document.head.appendChild(stylesheet);
-        var flag = 1;
-        var flagY = 1;
-        for (let y = 0; y < 15; y++) {
-
-            // _array.push({ x: x * box_height });
-            for (let x = 0; x < 15; x++) {
-                _array.push({ x: x * circleHeight + flag, y: y * circleHeight + flagY })
-                flag = flag + 1;
-                if (x >= 14) {
-                    flag = 1;
-                }
-
-            }
-            flagY = flagY + 1;
-            if (y >= 14) {
-                flagY = 1;
-            }
-            // for (let x = 0; x < 15; x++) { 
-
-            // }
-
-            // _array[x].x = x * box_height;
-            // _array[x].y = x
-
-
-        }
 
         //Y轴修正值
         var fiY = function(_y) {
@@ -132,15 +113,42 @@ Gomoku.prototype.initStage = function(reset) {
             var obj = {};
             var click_coordinatxes = 0;
 
-            //取最靠近点击区域的纵横坐标
-            for (let l = 0; l < coordinates.length; l++) {
-                if (Math.abs(clickX - coordinates[l].x) <= box_height / 2 &&
-                    Math.abs(clickY - coordinates[l].y) <= box_height / 2) {
-                    obj = coordinates[l];
-                    return obj;
-                }
 
+            if (clickX < box_height && clickY < box_height) {
+                obj["x"] = 0;
+                obj["y"] = 0;
+                // return obj;
+            } else {
+                if (clickX < box_height) {
+                    obj["x"] = 0;
+                } else if (clickX > box_height * 13) {
+                    obj["x"] = box_height * 14 + 12 * 1;
+                }
+                if (clickY < box_height) {
+                    obj["y"] = 0;
+                } else if (clickY > box_height * 13) {
+                    obj["y"] = box_height * 14 + 12 * 1;
+                }
+                //取最靠近点击区域的纵横坐标
+                for (let l in coordinates) {
+                    // if (clickX > coordinates[l]) {
+                    //     obj["x"] = coordinates[l] + box_height;
+                    // }
+                    // if (clickY > coordinates[l]) {
+                    //     obj["y"] = coordinates[l] + box_height;
+                    // }
+
+                    if (Math.abs(clickX - coordinates[l]) <= box_height / 2) {
+                        obj["x"] = coordinates[l] + 1;
+                    } else if (Math.abs(clickY - coordinates[l]) <= box_height / 2) {
+                        obj["y"] = coordinates[l] + 1;
+                    }
+                }
             }
+
+
+
+            return obj;
 
             // return obj;
         }
@@ -148,12 +156,12 @@ Gomoku.prototype.initStage = function(reset) {
 
 
 
-        // var chazhiX = config.el.offsetLeft + _div.clientWidth / 2;
-        // var chazhiY = config.el.offsetTop + _div.clientWidth / 2;
+
         var chazhi = _div.clientWidth / 2;
+        // var chazhi = 0;
         root.addEventListener('click', function(e) {
             // if (fiY(e.clientY) == _array[])
-            var confirmPoint = checkPoint(fiX(e.clientX), fiY(e.clientY), _array, null);
+            var confirmPoint = checkPoint(fiX(e.clientX), fiY(e.clientY), coordinates, null);
             // if (confirmPoint.boolean) {
             _div.style.left = confirmPoint.x - chazhi + 'px';
             _div.style.top = confirmPoint.y - chazhi + 'px';
@@ -171,7 +179,7 @@ Gomoku.prototype.initStage = function(reset) {
     }
 
     function insertChildren() {
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 13; i++) {
             _template = _template + `<li></li>`;
         };
         return _template;
