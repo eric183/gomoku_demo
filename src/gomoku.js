@@ -121,13 +121,17 @@ Gomoku.prototype.initStage = function(reset) {
             } else {
                 if (clickX < box_height) {
                     obj["x"] = 0;
-                } else if (clickX > box_height * 13) {
+                } else if (clickX > box_height * 14) {
                     obj["x"] = box_height * 14 + 12 * 1;
+                } else if (clickX > box_height * 13) {
+                    obj["x"] = box_height * 13 + 12 * 1;
                 }
                 if (clickY < box_height) {
                     obj["y"] = 0;
-                } else if (clickY > box_height * 13) {
+                } else if (clickY > box_height * 14) {
                     obj["y"] = box_height * 14 + 12 * 1;
+                } else if (clickY > box_height * 13) {
+                    obj["y"] = box_height * 13 + 12 * 1;
                 }
                 //取最靠近点击区域的纵横坐标
                 for (let l in coordinates) {
@@ -138,10 +142,11 @@ Gomoku.prototype.initStage = function(reset) {
                     //     obj["y"] = coordinates[l] + box_height;
                     // }
 
-                    if (Math.abs(clickX - coordinates[l]) <= box_height / 2) {
-                        obj["x"] = coordinates[l] + 1;
-                    } else if (Math.abs(clickY - coordinates[l]) <= box_height / 2) {
-                        obj["y"] = coordinates[l] + 1;
+                    if (!obj["x"] && Math.abs(clickX - coordinates[l]) <= box_height / 2) {
+                        obj["x"] = coordinates[l];
+                    }
+                    if (!obj["y"] && Math.abs(clickY - coordinates[l]) <= box_height / 2) {
+                        obj["y"] = coordinates[l];
                     }
                 }
             }
@@ -189,12 +194,6 @@ Gomoku.prototype.initStage = function(reset) {
 
 
 }
-
-
-
-// insertChildren();
-// console.log();
-// console.log(_template);
 
 
 var m = new Gomoku({ el: "#root" }).initStage();
